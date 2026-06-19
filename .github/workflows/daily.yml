@@ -1,0 +1,36 @@
+name: Client Response Time Tracker (daily)
+
+# Runs nightly in GitHub's cloud — no dependency on your computer.
+on:
+  schedule:
+    # GitHub cron is in UTC. Midnight in America/Bogota (UTC-5) = 05:00 UTC.
+    # If your timezone changes, adjust this hour.
+    - cron: '0 5 * * *'
+  workflow_dispatch:   # lets you trigger a run manually from the Actions tab
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Write Google service-account key
+        run: printf '%s' "$GOOGLE_CREDENTIALS_JSON" > credentials.json
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+
+      - name: Run tracker
+        run: node run.js
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          RESULTS_SPREADSHEET_ID: ${{ secrets.RESULTS_SPREADSHEET_ID }}
+          RESULTS_TAB: 'Response Time'

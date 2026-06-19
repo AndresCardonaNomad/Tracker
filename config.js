@@ -1,0 +1,98 @@
+// config.js — all tunable rules for the Client Response Time Tracker.
+// Everything here is a one-line change. No business logic lives in this file.
+
+export const config = {
+  // ---------------------------------------------------------------------------
+  // BUSINESS HOURS
+  // The response clock only ticks during these hours. A client message sent
+  // Friday 5pm that is answered Monday 9am counts as ~0 business minutes late.
+  // ---------------------------------------------------------------------------
+  timezone: 'America/Bogota',        // IANA tz the team works in
+  workingDays: [1, 2, 3, 4, 5],      // 0=Sun ... 6=Sat  (Mon–Fri)
+  workStartHour: 9,                  // 09:00 local
+  workEndHour: 17,                   // 17:00 local
+  holidays: [                        // 'YYYY-MM-DD' dates the clock is paused
+    // '2026-07-20',
+  ],
+
+  // ---------------------------------------------------------------------------
+  // SLA — the headline number
+  // % of client messages first answered within this many BUSINESS minutes.
+  // ---------------------------------------------------------------------------
+  slaBusinessMinutes: 10,
+
+  // ---------------------------------------------------------------------------
+  // CLIENT-vs-TEAM DETECTION
+  // A user is treated as a CLIENT (external) when ANY of these are true:
+  //   - they are a Slack guest (is_restricted or is_ultra_restricted)
+  //   - their team_id differs from our workspace (Slack Connect)
+  //   - their id/email is in clientOverrides below
+  // A user is treated as TEAM when:
+  //   - they are a full member of our workspace, OR
+  //   - their id/email is in teamOverrides below (wins over guest flag)
+  // Bots and apps are always excluded from both sides.
+  // ---------------------------------------------------------------------------
+  // Use these only for edge cases the auto-detection gets wrong
+  // (e.g. a client accidentally added as a full member, or a contractor
+  // teammate added as a guest). IDs (U0XXXX) preferred; emails also accepted.
+  clientOverrides: [],   // force these users to count as CLIENT
+  teamOverrides: [],     // force these users to count as TEAM
+
+  // ---------------------------------------------------------------------------
+  // CHANNEL SCOPING — which channels are "client channels"
+  // 'auto'      : any channel containing >=1 external user (recommended)
+  // 'prefix'    : only channels whose name starts with channelPrefix
+  // 'allowlist' : only channel IDs/names listed in channelAllowlist
+  // ---------------------------------------------------------------------------
+  channelScope: 'auto',
+  channelPrefix: 'client-',
+  channelAllowlist: [],  // e.g. ['C0123ABC', 'terry-cullen-chevy']
+  channelDenylist: [],   // always exclude these (internal channels caught by 'auto')
+
+  // ---------------------------------------------------------------------------
+  // WHAT COUNTS AS A RESPONSE
+  // ---------------------------------------------------------------------------
+  // Emoji reactions are tracked as "acknowledgements", never as responses,
+  // so nobody can game the metric by reacting fast. A real response is the
+  // first text message from a non-client, non-bot human.
+  countEmojiAsResponse: false,
+
+  // Exclude UNANSWERED pure acknowledgements / closers ("thanks", "got it",
+  // "perfect 👍") from the metric — a reply isn't needed after the request is
+  // handled. Only fires when every word is an ack word, so a real short
+  // request like "take it down" is never excluded.
+  excludeAcknowledgements: true,
+
+  // Client messages shorter than this and never answered are treated as
+  // likely FYI/no-action noise and excluded from the SLA denominator.
+  // Set to 0 to count every client message. (Belt-and-suspenders; the
+  // acknowledgement filter above is the smarter primary rule.)
+  ignoreUnansweredShorterThan: 0,   // characters; 0 = disabled
+
+  // Emoji a teammate can add to a client message to mark it "no action needed"
+  // and exclude it from the metric entirely.
+  noActionEmoji: 'no_action',
+
+  // ---------------------------------------------------------------------------
+  // REPORTING WINDOW
+  // ---------------------------------------------------------------------------
+  // How many days of history each run pulls (the "week"). Runs are idempotent:
+  // re-running recomputes the window from scratch, so safe to re-run.
+  lookbackDays: 7,
+
+  // Week label style for the Sheets output row.
+  weekLabelStyle: 'iso',   // 'iso' => 2026-W25 ; 'date' => week-ending YYYY-MM-DD
+
+  // ---------------------------------------------------------------------------
+  // ASSIGNED-TEAM MAP (optional) — for the "who SHOULD have answered" cut.
+  // Map a channel (id or name) to the team/pod that owns it. Channels not
+  // listed are reported under team 'Unassigned'. Safe to leave empty for v1;
+  // the "who DID respond" attribution works without it.
+  // ---------------------------------------------------------------------------
+  channelTeamMap: {
+    // 'terry-cullen-chevy': 'Alpha',
+    // 'C0123ABC': 'Beta',
+  },
+};
+
+export default config;

@@ -1,0 +1,17 @@
+{
+  "name": "client-response-time-tracker",
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "pilot": "node pilot.js",
+    "run": "node run.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "googleapis": "^140.0.1"
+  }
+}
