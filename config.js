@@ -38,6 +38,65 @@ export const config = {
   clientOverrides: [],   // force these users to count as CLIENT
   teamOverrides: [],     // force these users to count as TEAM
 
+  // EXCLUDED USERS (e.g. videographers): their messages are ignored entirely —
+  // they neither open a ticket nor count as a response. Reacting is enough; no
+  // text reply is expected. Matched by display name, real name, id, or email
+  // (case-insensitive). To add/remove someone, edit this list.
+  excludeUsers: [
+    'Che Pak',
+    'George Washington',
+    'Noah Godfrey',
+    'Trey Black',
+    'Greg Ports',
+    'Zach Saranthus',
+    'Jared Kovacs',
+    'Basilio Verduzco',
+    'Daval Torres',
+    'Tony Ousley',
+    'Byron Morris',
+    'Cheryl Paz',
+    'Logan Reavis',        // NOTE: user said "every other week" — excluded fully for now
+    'Craig De Maio',
+    'Alexander James',
+    'Ray Sarracino',
+    'Ray Agosto',
+    'Shafer Morales',
+    'Victoria Keo',
+    'Jazmin Luperena',
+    'Spencer Reich',
+    'Nicholas Ferrara',
+    'Spencer Sowers',
+    'Kenzie Greer',
+    'Marc Altieri',
+    'Rendy Ramos',
+    'David Jones',
+    'Andrew Ebright',
+    'DeJuan Jordan',
+    'Billy Dickson',
+    'Andrew Greenwell',
+    'Brandon Magpantay',
+    'Victor Cruz',
+    'Abigail Luna',
+    'Sean Sundrud',
+    'A-Ron Johnson',
+    'Yazmin Jarrin',
+    'Travis Brogen',
+    'Charles Tyree',
+    'Ana Caldwell',
+    'Michael Dispenza',
+    'Brady Prescott',
+    'Leslie Kirby',
+    'Timothy Bogart',
+    'Shane Bozman',
+    // Display-name aliases (their Slack name differs from the name given):
+    'Noah',          // = Noah Godfrey
+    'Alex James',    // = Alexander James
+    'DeJuan',        // = DeJuan Jordan
+    // Matched by member ID (most reliable):
+    'U0A4AB86UJK',   // = Ray Sarracino (videographer, cubaray89@gmail.com)
+    'U0BB6F31UAG',   // = Brandon Magpantay (bstunt@gmail.com)
+  ],
+
   // ---------------------------------------------------------------------------
   // CHANNEL SCOPING — which channels are "client channels"
   // 'auto'      : any channel containing >=1 external user (recommended)
