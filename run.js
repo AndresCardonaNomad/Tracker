@@ -6,11 +6,15 @@ import config from './config.js';
 import { collect } from './lib/collect.js';
 import { aggregate } from './lib/metrics.js';
 import { writeResults, weekLabel } from './lib/sheets.js';
-import { formatMinutes } from './lib/business-hours.js';
+import { formatMinutes, startOfISOWeekSec } from './lib/business-hours.js';
 
 const DRY = process.argv.includes('--dry');
 
-const { tickets, channelsById, users, window } = await collect({ log: (m) => console.error(m) }, config);
+// Measure the current ISO week (Monday 00:00 local -> now) so the nightly
+// number lines up exactly with the weekly rows / backfill.
+const now = Math.floor(Date.now() / 1000);
+const window = { oldest: startOfISOWeekSec(now, config), latest: now };
+const { tickets, channelsById, users } = await collect({ log: (m) => console.error(m), window }, config);
 const results = aggregate(tickets, config, channelsById);
 
 // Resolve responder ids -> display names for readability.

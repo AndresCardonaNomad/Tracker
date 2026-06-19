@@ -132,6 +132,13 @@ export const config = {
   // and exclude it from the metric entirely.
   noActionEmoji: 'no_action',
 
+  // Burst rescue: an UNANSWERED client message is not counted as a miss if the
+  // same client got a reply to another message within this many seconds — i.e.
+  // it was part of one burst the team handled (e.g. the client split a thought
+  // across a thread and the main channel). Answered tickets are never merged
+  // with each other, so a genuinely slow reply is never hidden. 0 disables.
+  mergeWindowSeconds: 120,
+
   // ---------------------------------------------------------------------------
   // REPORTING WINDOW
   // ---------------------------------------------------------------------------
