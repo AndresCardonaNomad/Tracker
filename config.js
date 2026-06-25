@@ -36,7 +36,71 @@ export const config = {
   // (e.g. a client accidentally added as a full member, or a contractor
   // teammate added as a guest). IDs (U0XXXX) preferred; emails also accepted.
   clientOverrides: [],   // force these users to count as CLIENT
-  teamOverrides: [],     // force these users to count as TEAM
+
+  // INTERNAL STAFF (writers, editors, team leads, account staff). Forced to TEAM
+  // by member ID so they are never counted as a client AND their replies still
+  // count as responses. Pulled from the Lists tab + Ops Master Writer/Editor
+  // columns. (Videographers are in excludeUsers instead — see below.)
+  teamOverrides: [
+    'U07TXMVM5A8',  // Alejandra
+    'U08RS9G27A6',  // Daniel Rodriguez
+    'U0899FSA20K',  // Oscar Castañeda
+    'U08H77GEU8Z',  // Francys Velasquez
+    'U08L56GE7A7',  // Manuel Diaz
+    'U08LK0N5BSB',  // Andres Villabrille
+    'U088PJ1JBNG',  // Anna Romo
+    'U087P740327',  // Daniel Latorre
+    'U08ASAYH5U5',  // Juliana
+    'U07T78EG74Z',  // Laura Gabelo
+    'U05V70DDRNV',  // Julia Kuzminski
+    'U094J4ZJ25B',  // Arena Hinojosa
+    'U09JE7TL10X',  // Camilo Reina
+    'U0B9Q0W3Z6U',  // Luna Garcia
+    'U08CTBMJUN4',  // Marcos Sanchez
+    'U099GM4PY48',  // Oriana Cardenas
+    'U097TGVFSAE',  // Xaver Heidrich
+    'U08L0NWDALV',  // Jislany Rojas
+    'U09D8TRDJJV',  // Alejandra Soledad Bueno (Ale Sol)
+    'U09DK0DHE8P',  // Teddy Schlegel
+    'U05M516QZ19',  // Pedro Bertonha Sodré
+    'U091ARVH03A',  // José Berni
+    'U08RS8KRP7U',  // Luke Dalla Bona
+    'U09MYM2FGES',  // German Rojas
+    'U09LGE8LHL1',  // Mario Castaño
+    'U0AE4QGBTPB',  // Ana Buitrago
+    'U0B8VMY7W66',  // Karim Bouchahda
+    'U05TJS15V7U',  // Aris
+    'U08CT4VPDMG',  // Nicolas Vivas (was a guest -> miscounted as client)
+    'U0B481ME03T',  // Sofia Caputo (was a guest -> miscounted as client)
+    'U0955Q3ECQP',  // Alexis Bravo
+    'U059Q3C2AKC',  // Badrul
+    'U065A8KV2JW',  // Cheehan De Leon
+    'U08JA45KDTM',  // Coleiv Canlas
+    'U042WFT5E4X',  // Franz Fries
+    'U04TR2DMXGC',  // Janus Cipriano
+    'U0959L9D5ED',  // Keissel Indefenso
+    'U09KWQXPWM9',  // Kristian Obsid
+    'U08MMKP1W2U',  // Mark Anthony Luz
+    'U07SM0ZEGUU',  // Mark Juje Dela Cruz
+    'U075307SCMU',  // Patrick Jay Indefenso
+    'U08V1PNLGQ2',  // Renz Angelo Corpuz
+    'U08HEL5SQ30',  // Roma Aquino
+    'U08S5CQDJUQ',  // Torraye Bermudez
+    'U050Z1TH537',  // Zephyr Mari Olbes
+    'U0440P2K01E',  // Omar (Omar Mo)
+    'U0AL8V86JE4',  // Stephanie Stewart
+    'U08E2FJRS49',  // Chloe Tang
+    'U087V4DJQPQ',  // Mishael
+    'U083QL8MMU0',  // Andres Cardona
+    'U07KJK1QC2Y',  // Natalia Arizaga
+    'U065NH8ABEH',  // Natalia Kuzminski
+    'U08RB2UV7K9',  // Juan Maldonado
+    'U0B8B5MSPRC',  // Juan Morales (was a guest -> miscounted as client)
+    'U095K1HABK5',  // Mar Torres
+    'U091ARWK332',  // Samantha Contreras
+    'U0AA8FDCN79',  // Samantha Infantino (was a guest -> miscounted as client)
+    'U08QSDSSC9Y',  // Tina Tran
+  ],
 
   // EXCLUDED USERS (e.g. videographers): their messages are ignored entirely —
   // they neither open a ticket nor count as a response. Reacting is enough; no
