@@ -100,6 +100,17 @@ export const config = {
     'U091ARWK332',  // Samantha Contreras
     'U0AA8FDCN79',  // Samantha Infantino (was a guest -> miscounted as client)
     'U08QSDSSC9Y',  // Tina Tran
+    // Added 2026-06-30 — writers/editors from Ops Master Spreadsheet (Alpha–Echo tabs).
+    // Most of the writer roster was already above; these were the missing ones.
+    'U08HDAMRN2H',  // Gabyy Torres (writer)
+    'U09GSEFRSG2',  // Bryan Garcia (editor)
+    'U061SAQ0GP4',  // Chris Layug ("Chris L." in sheet) (editor)
+    'U0AKEDDHBGC',  // Alexrael Caculitan (editor)
+    'U0B8S8P8D0D',  // Alther (editor)
+    'U0B309FABLN',  // Hero Liwanag (editor)
+    'U0AU9J3T5HA',  // Kiron Mapalad (editor)
+    'U0AATM8MT62',  // Lyle Serrano (editor)
+    'U0ATWCDH5GT',  // Victoria Baron (writer) — victoriab@nomadscast.com
   ],
 
   // EXCLUDED USERS (e.g. videographers): their messages are ignored entirely —
@@ -195,6 +206,17 @@ export const config = {
   // Emoji a teammate can add to a client message to mark it "no action needed"
   // and exclude it from the metric entirely.
   noActionEmoji: 'no_action',
+
+  // ---------------------------------------------------------------------------
+  // LLM ACCURACY GATE (optional) — see docs/superpowers/specs/2026-06-30-...
+  // When on, every NON-answered, NON-no_action client ticket is judged by Claude
+  // Haiku: "does this need a team reply?" yes -> counts as a miss, no -> excluded.
+  // Replaces the ACK_TOKENS word-list as the authority for unanswered inclusion.
+  // Needs ANTHROPIC_API_KEY in the env; if absent, falls back to the word-list.
+  // ---------------------------------------------------------------------------
+  useLlmClassifier: true,
+  llmModel: 'claude-haiku-4-5-20251001',
+  llmBatchSize: 20,
 
   // Burst rescue: an UNANSWERED client message is not counted as a miss if the
   // same client got a reply to another message within this many seconds — i.e.

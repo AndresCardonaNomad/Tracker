@@ -34,3 +34,6 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           RESULTS_SPREADSHEET_ID: ${{ secrets.RESULTS_SPREADSHEET_ID }}
           RESULTS_TAB: 'Response Time'
+          # LLM accuracy gate. If this secret is unset the run still works —
+          # it falls back to the ACK_TOKENS word-list (lib/llm-classify.js).
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}

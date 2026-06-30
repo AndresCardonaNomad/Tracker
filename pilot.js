@@ -8,6 +8,7 @@ import 'dotenv/config';
 import config from './config.js';
 import { collect } from './lib/collect.js';
 import { aggregate } from './lib/metrics.js';
+import { classifyNeedsResponse } from './lib/llm-classify.js';
 import { formatMinutes } from './lib/business-hours.js';
 
 const want = (process.env.PILOT_CHANNELS || '').split(',').map((s) => s.trim()).filter(Boolean);
@@ -22,6 +23,7 @@ const { tickets, channelsById, users, summary, window } = await collect(
   { channelFilter, log: (m) => console.error(m) },
   config
 );
+await classifyNeedsResponse(tickets, config, { log: (m) => console.error(m) });
 
 console.log(`\n=== PILOT — channel detection audit ===`);
 console.log(`(window: last ${config.lookbackDays} days, tz ${config.timezone}, SLA ${config.slaBusinessMinutes}m)\n`);

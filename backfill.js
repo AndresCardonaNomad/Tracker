@@ -9,6 +9,7 @@ import 'dotenv/config';
 import config from './config.js';
 import { collect } from './lib/collect.js';
 import { aggregate } from './lib/metrics.js';
+import { classifyNeedsResponse } from './lib/llm-classify.js';
 import { writeResults, weekLabel } from './lib/sheets.js';
 import { formatMinutes } from './lib/business-hours.js';
 
@@ -22,9 +23,10 @@ for (let i = WEEKS - 1; i >= 0; i--) {
   const latest = now - i * 7 * 86400;
   const oldest = latest - 7 * 86400;
   const window = { oldest, latest };
-  const label = weekLabel(window, config.weekLabelStyle);
+  const label = weekLabel(window, config.weekLabelStyle, config.timezone);
 
   const { tickets, channelsById, users } = await collect({ window, log: () => {} }, config);
+  await classifyNeedsResponse(tickets, config);
   const results = aggregate(tickets, config, channelsById);
   results.byResponder = results.byResponder.map((r) => ({ ...r, key: users.get(r.key)?.name || r.key }));
   const o = results.overall;
