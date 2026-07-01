@@ -18,7 +18,12 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          # KEEP AT 20. Node 22 breaks googleapis auth on the runner:
+          # ERR_STREAM_PREMATURE_CLOSE fetching oauth2/v4/token (node-fetch/gzip
+          # incompatibility) — fails every Sheets write. Node 20 is rock-solid
+          # here; the "Node 20 deprecated" warning is cosmetic (it's about the
+          # actions' own runtime, not ours). Do not bump without upgrading googleapis.
+          node-version: '20'
 
       - name: Install dependencies
         run: npm ci
